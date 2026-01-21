@@ -14,6 +14,8 @@ included `.envrc` automates this for you.
 load("@bazel_env.bzl", "bazel_env")
 load("@bazelrc-preset.bzl", "bazelrc_preset")
 load("@multitool//:tools.bzl", MULTITOOL_TOOLS = "TOOLS")
+load("@rules_ruby//ruby:defs.bzl", "rb_binary")
+load("@rules_ruby//ruby:proto.bzl", "rb_grpc_protoc_plugin_toolchain")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -34,4 +36,15 @@ bazel_env(
         "gem": "@ruby//:gem",
         "ruby": "@ruby",
     } | MULTITOOL_TOOLS,
+)
+
+rb_binary(
+    name = "grpc_tools_ruby_protoc_plugin",
+    main = "@bundle//bin:grpc_tools_ruby_protoc_plugin",
+    deps = ["@bundle"],
+)
+
+rb_grpc_protoc_plugin_toolchain(
+    name = "grpc_protoc_plugin",
+    grpc_plugin = ":grpc_tools_ruby_protoc_plugin",
 )

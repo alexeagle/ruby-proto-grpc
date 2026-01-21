@@ -19,11 +19,10 @@ use_repo(multitool, "multitool")
 #########################
 # Support for Ruby, see https://github.com/bazel-contrib/rules_ruby
 bazel_dep(name = "rules_ruby")
-single_version_override(
+git_override(
     module_name = "rules_ruby",
-    patch_strip = 1,
-    patches = ["//:rules_ruby.patch"],
-    version = "0.21.1",
+    commit = "103669e3147ec4e02e0e236138b7056e6a2514f2",
+    remote = "https://github.com/bazel-contrib/rules_ruby.git",
 )
 
 ruby = use_extension("@rules_ruby//ruby:extensions.bzl", "ruby")
@@ -34,6 +33,8 @@ ruby.toolchain(
 use_repo(ruby, "ruby", "ruby_toolchains")
 
 register_toolchains("@ruby_toolchains//:all")
+
+register_toolchains("//tools:grpc_protoc_plugin")
 
 ruby.bundle_fetch(
     name = "bundle",
