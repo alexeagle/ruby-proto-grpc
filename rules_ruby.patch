@@ -1,0 +1,19 @@
+diff --git a/ruby/private/library.bzl b/ruby/private/library.bzl
+index 3a7ef6e0..aefe1cac 100644
+--- a/ruby/private/library.bzl
++++ b/ruby/private/library.bzl
+@@ -1,5 +1,5 @@
+ "Implementation details for rb_library"
+-
++load("@@//proto:ruby.bzl", "ruby_proto_aspect")
+ load(
+     "//ruby/private:providers.bzl",
+     "BundlerInfo",
+@@ -18,6 +18,7 @@ ATTRS = {
+     ),
+     "deps": attr.label_list(
+         doc = "List of other Ruby libraries the target depends on.",
++        aspects = [ruby_proto_aspect],
+     ),
+     "data": attr.label_list(
+         allow_files = True,
